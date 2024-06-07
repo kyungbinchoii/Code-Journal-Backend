@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPencilAlt } from 'react-icons/fa';
 import { Entry, readEntries } from '../data';
+import { useUser } from '../useUser';
 
 export function EntryList() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>();
+  const { user } = useUser();
 
   useEffect(() => {
     async function load() {
@@ -38,7 +40,7 @@ export function EntryList() {
         <div className="column-full d-flex justify-between align-center">
           <h1>Entries</h1>
           <h3>
-            <Link to="/details/new" className="white-text form-link">
+            <Link to="details/new" className="white-text form-link">
               NEW
             </Link>
           </h3>
@@ -47,9 +49,11 @@ export function EntryList() {
       <div className="row">
         <div className="column-full">
           <ul className="entry-ul">
-            {entries.map((entry) => (
-              <EntryCard key={entry.entryId} entry={entry} />
-            ))}
+            {user
+              ? entries.map((entry) => (
+                  <EntryCard key={entry.entryId} entry={entry} />
+                ))
+              : 'Please log in/sign-out'}
           </ul>
         </div>
       </div>
