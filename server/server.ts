@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- Remove me */
 import 'dotenv/config';
 import pg from 'pg';
 import express from 'express';
 import { ClientError, errorMiddleware } from './lib/index.js';
-import { time } from 'console';
-import { title } from 'process';
+
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -45,7 +43,7 @@ app.get('/api/entries/:entryId', async (req,res,next)=>{
     if(!result){
       throw new ClientError(400, 'invalid entries');
     }
-    res.json(result.rows);
+    res.json(result.rows[0]);
 
   } catch (err){
     next(err);

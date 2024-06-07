@@ -14,19 +14,7 @@ type Data = {
 // const [error, setError] = useState<unknown>();
 
 const dataKey = 'code-journal-data';
-// function readData(): Data {
-  //   let data: Data;
-  //   const localData = localStorage.getItem(dataKey);
-  //   if (localData) {
-    //     data = JSON.parse(localData);
-    //   } else {
-      //     data = {
-        //       entries: [],
-        //       nextEntryId: 1,
-        //     };
-        //   }
-        //   return data;
-        // }
+
 
 
 export async function readEntries(): Promise<Entry[]> {
@@ -63,16 +51,16 @@ export async function addEntry(entry: Entry): Promise<Entry> {
 }
 
 export async function updateEntry(entry: Entry): Promise<Entry> {
-  const response = await fetch(`api/entries/${entry.entryId}`,{
+  const response = await fetch(`/api/entries/${entry.entryId}`,{
     method: 'PUT',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify(entry)
   });
-  if(!response) {
-    throw new Error('failed to update entry')
+
+  if (!response.ok) {
+    throw new Error('Failed to update entry');
   }
-  const updatedEntry = await response.json();
-  return updateEntry
+  return await response.json();
 }
 
 export async function removeEntry(entryId: number): Promise<void> {
@@ -82,7 +70,4 @@ export async function removeEntry(entryId: number): Promise<void> {
   if(!response){
     throw new Error('failed to delete entry');
   }
-  const deletedEntry = await response.json()
-  return deletedEntry;
-
 }
