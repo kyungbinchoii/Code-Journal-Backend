@@ -39,7 +39,7 @@ export function EntryForm() {
       }
     }
     if (isEditing) load(+entryId);
-  }, [entryId]);
+  }, [entryId, isEditing]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,13 +50,13 @@ export function EntryForm() {
     } else {
       addEntry(newEntry);
     }
-    navigate('/');
+    navigate('/entries');
   }
 
   function handleDelete() {
     if (!entry?.entryId) throw new Error('Should never happen');
     removeEntry(entry.entryId);
-    navigate('/');
+    navigate('/entries');
   }
 
   if (isLoading) return <div>Loading...</div>;
